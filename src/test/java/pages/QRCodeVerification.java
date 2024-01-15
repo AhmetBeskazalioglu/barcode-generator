@@ -23,40 +23,45 @@ public class QRCodeVerification {
     @FindBy(id = "qrcode-preview-image")
     public WebElement qrCodeImage;
 
+    // Method to verify QR code with the given image URL and expected value
     public boolean verifyQRCode(String imageUrl, String expectedValue) {
-    try {
-        // QR kodu al
-        BufferedImage image = ImageIO.read(new URL(imageUrl));
+        try {
+            // Retrieve the QR code image
+            BufferedImage image = ImageIO.read(new URL(imageUrl));
 
-        // QR kodunu okuma işlemi
-        Result result = readQRCode(image);
+            // Perform QR code reading
+            Result result = readQRCode(image);
 
-        // Okunan QR kodu ile beklenen değeri karşılaştır
-        if (result != null && result.getText().equals(expectedValue)) {
-            return true;
-        } else {
-            return false;
+            // Compare the read QR code with the expected value
+            if (result != null && result.getText().equals(expectedValue)) {
+                return true; // Return true if they match
+            } else {
+                return false; // Return false if they don't match
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+            return false; // Return false in case of any IO exception
         }
-    } catch (IOException e) {
-        e.printStackTrace();
-        return false;
     }
-}
 
+    // Private method to read QR code from a BufferedImage
     private static Result readQRCode(BufferedImage image) {
         try {
             if (image != null) {
+                // Create a BinaryBitmap from the image using HybridBinarizer
                 BinaryBitmap binaryBitmap = new BinaryBitmap(
                         new HybridBinarizer(new BufferedImageLuminanceSource(image)));
+
+                // Set decoding hints, attempting a harder decode
                 Map<DecodeHintType, Object> hints = new EnumMap<>(DecodeHintType.class);
                 hints.put(DecodeHintType.TRY_HARDER, Boolean.TRUE);
 
+                // Decode the QR code using MultiFormatReader
                 return new MultiFormatReader().decode(binaryBitmap, hints);
             }
-        } catch (NotFoundException  e) {
-            e.printStackTrace();
+        } catch (NotFoundException e) {
+            e.printStackTrace(); // Print the exception if QR code is not found
         }
-        return null;
+        return null; // Return null if there's an issue during decoding
     }
-
 }
