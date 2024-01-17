@@ -1,4 +1,4 @@
-package tests;
+package tests.qrcodegeneratortest;
 
 import org.testng.Assert;
 import org.openqa.selenium.By;
@@ -6,6 +6,7 @@ import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebElement;
 import org.testng.annotations.Test;
 import pages.QRCodeVerification;
+import tests.TestBase;
 import utilities.BrowserUtils;
 import utilities.ConfigurationReader;
 
