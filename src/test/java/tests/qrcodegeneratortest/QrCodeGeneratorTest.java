@@ -5,14 +5,11 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebElement;
 import org.testng.annotations.Test;
-import pages.QRCodeVerification;
 import tests.TestBase;
 import utilities.BrowserUtils;
 import utilities.ConfigurationReader;
 
 public class QrCodeGeneratorTest extends TestBase {
-    QRCodeVerification qr = new QRCodeVerification();
-
     @Test
     public void testName() {
         // Open the application URL
@@ -43,6 +40,6 @@ public class QrCodeGeneratorTest extends TestBase {
         String expectedValue = text;
 
         // Assert that the generated QR code matches the expected value
-        Assert.assertTrue(qr.verifyQRCode(imageUrl, expectedValue));
+        Assert.assertTrue(BrowserUtils.verifyQRCode(imageUrl, expectedValue));
     }
 }
